@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17324d">
+<title>Weekly Timetable | 2nd Year Class</title>
+<style>
+:root{--nav:#17324d;--accent:#2b6f9f;--bg:#f4f7fa;--card:#fff;--line:#dce4eb;--text:#182b3c;--muted:#687989;--theory:#eaf3fa;--practical:#eef7ed}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+header{background:linear-gradient(135deg,#17324d,#2b6f9f);color:#fff;text-align:center;padding:24px 14px}
+header h1{margin:0 0 7px;font-size:25px}header p{margin:4px 0;opacity:.94}
+.container{max-width:1150px;margin:auto;padding:14px}
+.card{background:var(--card);border-radius:16px;padding:15px;margin:14px 0;box-shadow:0 5px 20px rgba(0,0,0,.07)}
+h2{margin:0 0 12px;font-size:20px}.sub{color:var(--muted);font-size:13px;margin:-5px 0 12px}
+.days{display:flex;gap:8px;overflow:auto;padding-bottom:5px}.days button{border:0;background:#e8eef3;color:var(--nav);padding:10px 15px;border-radius:10px;font-weight:700;cursor:pointer;white-space:nowrap}.days button.active{background:var(--accent);color:#fff}
+table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:11px 8px;text-align:center;border-bottom:1px solid var(--line);vertical-align:middle}
+th{background:#edf2f6}tr:last-child td{border-bottom:0}
+.theory td{background:var(--theory)}.time{font-weight:800;white-space:nowrap}.subject{font-weight:800}.group{font-size:12px;color:var(--accent);font-weight:700;margin-top:4px}.teacher{font-size:12px;color:var(--muted);margin-top:4px}.room{font-size:12px;color:var(--accent);margin-top:3px}
+.online{font-weight:700;color:#7a5a00}.empty{color:#a5afb8}
+.filter{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}.filter button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 12px;cursor:pointer}.filter button.active{background:var(--nav);color:#fff}
+.practical-table th{background:#eaf3ea}.practical-table td{background:var(--practical)}
+.note{font-size:12px;color:var(--muted);line-height:1.7}
+footer{text-align:center;color:var(--muted);padding:22px 10px;font-size:13px}
+@media(max-width:700px){header h1{font-size:20px}.container{padding:9px}.card{padding:10px}th,td{padding:9px 5px;font-size:12px}.teacher,.room,.group{font-size:11px}}
+</style>
+</head>
+<body>
+<header>
+<h1>Weekly Timetable</h1>
+<p>2nd Year Class</p>
+<p>University of Al-Maarif · Department of Medical Laboratory Techniques</p>
+<p>Academic Year (2026–2027)</p>
+</header>
+
+<main class="container">
+<section class="card">
+<h2>Theoretical Weekly Timetable</h2>
+<p class="sub">Subject names are displayed in English only.</p>
+<div class="days" id="days"></div>
+<div id="theory"></div>
+</section>
+
+<section class="card">
+<h2>Practical Weekly Timetable</h2>
+<p class="sub">Groups A1–A4 and B1–B4 as shown in the uploaded timetable.</p>
+<div class="filter" id="practicalDays"></div>
+<div id="practical"></div>
+</section>
+</main>
+
+<footer>مصمم الموقع: <strong>مصطفى مهند حامد</strong></footer>
+
+<script>
+const days=["Saturday","Sunday","Monday","Tuesday","Wednesday"];
+
+const theory={
+Saturday:[
+["8:30–10:00","M-214","Human Physiology-1-A","A","أ.د. عبد علي ذاكر"],
+["11:30–1:00","M-214","Histology-1-B","B","م.م. بالل عبد المجيد"],
+["1:00–2:30","M-115","Histology-1-A","A","م.م. بالل عبد المجيد"]
+],
+Sunday:[
+["8:30–10:00","M-114","Medical Bacteriology-1-A","A","م.م. محمد هاشم محمد"],
+["10:00–11:30","M-114","Biochemistry-1-B","B","م.م. محمد هاشم محمد"],
+["11:30–1:00","M-114","Human Physiology-1-B","B","أ.د. عبد علي ذاكر"],
+["1:00–2:30","M-114","Biochemistry-1-A","A","م.د. محمد جمال منصور"]
+],
+Monday:[
+["10:00–11:30","Online","Crimes of baath-A&B","A&B",""],
+["11:30–1:00","Online","Arabic Language A&B","A&B",""]
+],
+Tuesday:[
+["8:30–10:00","M-214","Medical Parasitology-1-B","B","م.د. محمد جمال منصور"],
+["10:00–11:30","B-102","Medical Parasitology-1-A","A","م.م. محمود ياسين مخلف"],
+["11:30–1:00","M-214","Medical Bacteriology-1-B","B","م.م. محمود ياسين مخلف"]
+],
+Wednesday:[
+["8:30–10:00","M-214","Descriptive Biostatics-A","A","أ.د. حمدي جاسم حمادي"],
+["11:30–1:00","M-214","Descriptive Biostatics-B","B","أ.د. حمدي جاسم حمادي"]
+]};
+
+const practical={
+Saturday:[
+["8:30–10:00","Medical Bacteriology-1","M-002","B2"],["8:30–10:00","Human Physiology-1","M-003","B3"],["8:30–10:00","Biochemistry-1","M-104","B1"],
+["10:00–11:30","Medical Parasitology-1","M-002","A4"],["10:00–11:30","Medical Bacteriology-1","M-002","A1"],["10:00–11:30","Human Physiology-1","M-003","A2"],
+["11:30–1:00","Medical Parasitology-1","M-002","A2"],["11:30–1:00","Medical Bacteriology-1","M-002","A4"],["11:30–1:00","Human Physiology-1","M-003","A3"],
+["1:00–2:30","Medical Bacteriology-1","M-002","B3"],["1:00–2:30","Human Physiology-1","M-003","B1"],["1:00–2:30","Biochemistry-1","M-104","B4"]
+],
+Sunday:[
+["8:30–10:00","Medical Bacteriology-1","M-002","B1"],["8:30–10:00","Histology-1","M-003","B2"],
+["10:00–11:30","Medical Parasitology-1","M-002","A3"],["10:00–11:30","Histology-1","M-003","A2"],
+["11:30–1:00","Medical Parasitology-1","M-002","A1"],["11:30–1:00","Histology-1","M-003","A4"],
+["1:00–2:30","Medical Parasitology-1","M-002","B4"],["1:00–2:30","Histology-1","M-003","B3"]
+],
+Tuesday:[
+["8:30–10:00","Medical Parasitology-1","M-002","A4"],["8:30–10:00","Histology-1","M-003","A3"],
+["10:00–11:30","Medical Parasitology-1","M-002","B4"],["10:00–11:30","Histology-1","M-003","B1"],
+["11:30–1:00","Medical Parasitology-1","M-002","A2"],["11:30–1:00","Histology-1","M-003","A1"],
+["1:00–2:30","Medical Parasitology-1","M-002","A1"],["1:00–2:30","Histology-1","M-003","B4"]
+],
+Wednesday:[
+["8:30–10:00","Medical Parasitology-1","M-002","B1"],["8:30–10:00","Medical Bacteriology-1","M-002","B2"],["8:30–10:00","Biochemistry-1","M-104","B3"],
+["10:00–11:30","Medical Parasitology-1","M-002","B3"],["10:00–11:30","Medical Bacteriology-1","M-002","B4"],["10:00–11:30","Biochemistry-1","M-104","B2"],
+["11:30–1:00","Medical Parasitology-1","M-002","A3"],["11:30–1:00","Medical Bacteriology-1","M-002","A2"],["11:30–1:00","Biochemistry-1","M-104","A1"],
+["1:00–2:30","Medical Parasitology-1","M-002","B2"],["1:00–2:30","Medical Bacteriology-1","M-002","A3"],["1:00–2:30","Biochemistry-1","M-104","A4"]
+]};
+
+let selectedDay="Saturday";
+let practicalDay="Saturday";
+
+function renderDays(){
+ document.getElementById("days").innerHTML=days.map(d=>`<button class="${d===selectedDay?"active":""}" onclick="selectedDay='${d}';renderTheory()">${d}</button>`).join("");
+}
+function renderTheory(){
+ renderDays();
+ const rows=theory[selectedDay].map(x=>`
+ <tr class="theory">
+  <td class="time">${x[0]}</td><td>${x[1]}</td>
+  <td><div class="subject">${x[2]}</div><div class="group">${x[3]}</div>${x[4]?`<div class="teacher">${x[4]}</div>`:""}${x[1]==="Online"?'<div class="online">Online</div>':""}</td>
+ </tr>`).join("");
+ document.getElementById("theory").innerHTML=`
+ <div style="overflow:auto"><table><thead><tr><th>Time</th><th>Hall</th><th>Subject / Group / Lecturer</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function renderPractical(){
+ document.getElementById("practicalDays").innerHTML=days.map(d=>`<button class="${d===practicalDay?"active":""}" onclick="practicalDay='${d}';renderPractical()">${d}</button>`).join("");
+ const rows=practical[practicalDay].map(x=>`<tr><td class="time">${x[0]}</td><td class="subject">${x[1]}</td><td>${x[2]}</td><td class="group">${x[3]}</td></tr>`).join("");
+ document.getElementById("practical").innerHTML=`<div style="overflow:auto"><table class="practical-table"><thead><tr><th>Time</th><th>Subject</th><th>Lab. No.</th><th>Group</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+renderTheory();renderPractical();
+</script>
+</body>
+</html>
